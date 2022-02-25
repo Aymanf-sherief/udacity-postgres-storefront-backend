@@ -18,7 +18,7 @@ exports.up = function (db) {
     return db.createTable("products", {
         id: { type: "int", primaryKey: true, autoIncrement: true },
         name: "string",
-        price: "float",
+        price: "decimal",
     });
 };
 
