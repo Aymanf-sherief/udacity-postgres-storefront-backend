@@ -1,14 +1,22 @@
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
-import client from "./database";
+import usersRouter from "./routes/users";
+import ordersRouter from "./routes/orders";
+import productsRouter from "./routes/products";
+import { authMiddleware } from "./middleware/auth";
 
 const app: express.Application = express();
 const address = "0.0.0.0:3000";
 
 app.use(bodyParser.json());
 
-app.get("/", function (req: Request, res: Response) {
-    res.send("Hello World!");
+app.use("/users", authMiddleware, usersRouter);
+app.post("/products", authMiddleware);
+app.use("/products", productsRouter);
+app.use("/orders", authMiddleware, ordersRouter);
+
+app.get("/", async (req: Request, res: Response) => {
+    res.send("API up");
 });
 
 app.listen(3000, function () {
