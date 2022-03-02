@@ -4,39 +4,38 @@ The company stakeholders want to create an online storefront to showcase their g
 These are the notes from a meeting with the frontend developer that describe what endpoints the API needs to supply, as well as data shapes the frontend and backend have agreed meet the requirements of the application. 
 
 ## API Endpoints
+
+Note that upon creating a new user you'll get a JWT token that you should use in an auth header for all requests that require a token
 #### Products
-- Index 
-- Show
-- Create [token required]
-- [OPTIONAL] Top 5 most popular products 
-- [OPTIONAL] Products by category (args: product category)
+- Index  `GET /products`
+- Show `GET /products/:id`
+- Create `POST /products` [token required]
 
 #### Users
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+- Index  `GET /users`  [token required]
+- Show  `GET /users/:id`  [token required]
+- Create `POST /users` 
 
 #### Orders
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
-
+- Current Order by user `GET /orders/currentUserOrder` [token required]
+- Create a new order `POST /orders`
 ## Data Shapes
 #### Product
--  id
-- name
-- price
-- [OPTIONAL] category
+-  id: number
+- name: string
+- price: number
 
 #### User
-- id
-- firstName
-- lastName
-- password
+- id: number
+- name: string
+- email: string
+- password: string (write only)
+- token: string (read only)
 
 #### Orders
-- id
-- id of each product in the order
-- quantity of each product in the order
-- user_id
-- status of order (active or complete)
+- id: number
+- products : number[]
+- quantities : number
+- user_id: number
+- status of order (pending or complete): string
 

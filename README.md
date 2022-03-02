@@ -1,54 +1,62 @@
-# Storefront Backend Project
+# Simple storefront API
 
-## Getting Started
+## Description
 
-This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.
+This is a simple storefront API 
 
-## Required Technologies
-Your application must make use of the following libraries:
-- Postgres for the database
-- Node/Express for the application logic
-- dotenv from npm for managing environment variables
-- db-migrate from npm for migrations
-- jsonwebtoken from npm for working with JWTs
-- jasmine from npm for testing
+## How to run 
 
-## Steps to Completion
+1. make sure you have installed the latest LTS version of Node, And installed typescript globally.
+2. install yarn globally by running `npm install -g yarn`
+3. in the root directory (same dir as `package.json`), run `yarn install`
+4. install yarn globally by running `npm install -g db-migrate`
+5. create two databases in you postgresql server (for dev and test), and replace the values in .env.example with your own, name the new file `.env`
+6. run `db-migrate up` to create the tables in the dev database
+7. upon success, you should be able to run tests by first navigating to the tests directory, removing the x in `xdescribe` in the desired test suite, and then running `yarn test`. remember that running two test suites at the same time will result in issues in the test database.
+8. if the tests passed, you can begin running the server by running `yarn wath`
+9. you should see a message logged to the terminal stating that the server has started and is running on a specified port.
+10. once the server is running, you can start accessing endoints (descriped below)
+   
 
-### 1. Plan to Meet Requirements
+## Endpoints
 
-In this repo there is a `REQUIREMENTS.md` document which outlines what this API needs to supply for the frontend, as well as the agreed upon data shapes to be passed between front and backend. This is much like a document you might come across in real life when building or extending an API. 
+1. ### Products
+   1. List all products: `GET /products`
+   2. get a specific product: `GET /products/:id`
+   3. create a product: `POST /products` (requires auth token)
 
-Your first task is to read the requirements and update the document with the following:
-- Determine the RESTful route for each endpoint listed. Add the RESTful route and HTTP verb to the document so that the frontend developer can begin to build their fetch requests.    
-**Example**: A SHOW route: 'blogs/:id' [GET] 
+1. ### Users
+   1. List all users: `GET /users` (requires auth token)
+   2. get a specific user: `GET /users/:id` (requires auth token)
+   3. create a user: `POST /users` (requires auth token)
 
-- Design the Postgres database tables based off the data shape requirements. Add to the requirements document the database tables and columns being sure to mark foreign keys.   
-**Example**: You can format this however you like but these types of information should be provided
-Table: Books (id:varchar, title:varchar, author:varchar, published_year:varchar, publisher_id:string[foreign key to publishers table], pages:number)
+1. ### Orders
+   1. Get current user order: `GET /orders/currentUserOrder` (requires auth token)
+   2. create an order user: `POST /orders` (requires auth token) 
+## Scripts
+1. `test`: set up test database and run tests
+2. `watch`: start server and watch files on changes
+3. `start`: start server
+4. `tsc`: run typescript compiler to check and build project
+5. `prettify`: apply `prettier` to all typescript files, if you're running this in a linux environment you will need to change the double backslashes in the command with single forward slashes. so it becomes `prettier **/*.ts --write`
+6. `lint`: lints all typescript files using `eslint`, if you're running this in a linux environment you will need to change the double backslashes in the command with single forward slashes. so it becomes `./node_modules/.bin/eslint **/*.ts`
+   
+## Data Shapes
+#### Product
+-  id
+- name
+- price
 
-**NOTE** It is important to remember that there might not be a one to one ratio between data shapes and database tables. Data shapes only outline the structure of objects being passed between frontend and API, the database may need multiple tables to store a single shape. 
+#### User
+- id
+- name
+- email
+- password
 
-### 2.  DB Creation and Migrations
+#### Orders
+- id
+- id of each product in the order
+- quantity of each product in the order
+- user_id
+- status of order (prending or complete)
 
-Now that you have the structure of the databse outlined, it is time to create the database and migrations. Add the npm packages dotenv and db-migrate that we used in the course and setup your Postgres database. If you get stuck, you can always revisit the database lesson for a reminder. 
-
-You must also ensure that any sensitive information is hashed with bcrypt. If any passwords are found in plain text in your application it will not pass.
-
-### 3. Models
-
-Create the models for each database table. The methods in each model should map to the endpoints in `REQUIREMENTS.md`. Remember that these models should all have test suites and mocks.
-
-### 4. Express Handlers
-
-Set up the Express handlers to route incoming requests to the correct model method. Make sure that the endpoints you create match up with the enpoints listed in `REQUIREMENTS.md`. Endpoints must have tests and be CORS enabled. 
-
-### 5. JWTs
-
-Add JWT functionality as shown in the course. Make sure that JWTs are required for the routes listed in `REQUIUREMENTS.md`.
-
-### 6. QA and `README.md`
-
-Before submitting, make sure that your project is complete with a `README.md`. Your `README.md` must include instructions for setting up and running your project including how you setup, run, and connect to your database. 
-
-Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!

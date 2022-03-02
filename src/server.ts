@@ -10,7 +10,8 @@ const address = "0.0.0.0:3000";
 
 app.use(bodyParser.json());
 
-app.use("/users", authMiddleware, usersRouter);
+app.get("/users", authMiddleware);
+app.use("/users", usersRouter);
 app.post("/products", authMiddleware);
 app.use("/products", productsRouter);
 app.use("/orders", authMiddleware, ordersRouter);
