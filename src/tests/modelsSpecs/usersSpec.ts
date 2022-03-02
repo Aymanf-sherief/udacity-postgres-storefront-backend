@@ -1,11 +1,8 @@
-import client from "../database";
-import { UserStore } from "../models/users";
-import { setupTestDatabase, tearDownTestDatabase } from "./utils";
+import client from "../../database";
+import { UserStore } from "../../models/users";
 import jwt from "jsonwebtoken";
 
-xdescribe("User Model", () => {
-    beforeAll(async () => await setupTestDatabase());
-
+describe("User Model", () => {
     it("should have an index method", () => {
         expect(UserStore.index).toBeDefined();
     });
@@ -60,6 +57,4 @@ xdescribe("User Model", () => {
         await conn.query(sql);
         conn.release();
     });
-
-    afterAll(async () => await tearDownTestDatabase());
 });

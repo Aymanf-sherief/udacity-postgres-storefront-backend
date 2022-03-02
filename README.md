@@ -4,18 +4,44 @@
 
 This is a simple storefront API 
 
+## Database setup
+
+1. Install postgresql, you can do that via the installer or via the docker container
+2. Create a storefront user with permissions to create and delete databases (superuser) 
+   ```
+   CREATE ROLE storefront_user WITH
+   NOLOGIN
+   SUPERUSER
+   CREATEDB
+   CREATEROLE
+   INHERIT
+   NOREPLICATION
+   CONNECTION LIMIT -1
+   PASSWORD 'password';
+   ```
+3. Create a storefront database owned by the storefront user by running 
+   ```
+   CREATE DATABASE storefront_test
+   WITH 
+   OWNER = storefront_user
+   ENCODING = 'UTF8'
+   CONNECTION LIMIT = -1;
+   ```
+
+4. replae the values in the example `.env` file with your own
 ## How to run 
 
 1. make sure you have installed the latest LTS version of Node, And installed typescript globally.
 2. install yarn globally by running `npm install -g yarn`
 3. in the root directory (same dir as `package.json`), run `yarn install`
 4. install yarn globally by running `npm install -g db-migrate`
-5. create two databases in you postgresql server (for dev and test), and replace the values in .env.example with your own, name the new file `.env`
-6. run `db-migrate up` to create the tables in the dev database
-7. upon success, you should be able to run tests by first navigating to the tests directory, removing the x in `xdescribe` in the desired test suite, and then running `yarn test`. remember that running two test suites at the same time will result in issues in the test database.
-8. if the tests passed, you can begin running the server by running `yarn wath`
-9. you should see a message logged to the terminal stating that the server has started and is running on a specified port.
-10. once the server is running, you can start accessing endoints (descriped below)
+5. install postgresql database server, and configure it to listen on the default port `5432`
+6. create two databases in you postgresql server (for dev and test), and replace the values in .env.example with your own, name the new file `.env`
+7. run `db-migrate up` to create the tables in the dev database
+8. upon success, you should be able to run tests by running `yarn test`.
+9. if the tests passed, you can begin running the server by running `yarn watch`
+10. you should see a message logged to the terminal stating that the server has started and is running on a port `3000`.
+11. once the server is running, you can start accessing endoints (descriped below)
    
 
 ## Endpoints
@@ -31,7 +57,7 @@ This is a simple storefront API
    3. create a user: `POST /users` (requires auth token)
 
 1. ### Orders
-   1. Get current user order: `GET /orders/currentUserOrder` (requires auth token)
+   1. Get current user order: `GET /orders/current-user-order` (requires auth token)
    2. create an order user: `POST /orders` (requires auth token) 
 ## Scripts
 1. `test`: set up test database and run tests

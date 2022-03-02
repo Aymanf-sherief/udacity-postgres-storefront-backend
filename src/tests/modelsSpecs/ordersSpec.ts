@@ -1,10 +1,7 @@
-import client from "../database";
-import { OrderStore } from "../models/orders";
-import { setupTestDatabase, tearDownTestDatabase } from "./utils";
+import client from "../../database";
+import { OrderStore } from "../../models/orders";
 
-xdescribe("Order Model", () => {
-    beforeAll(async () => await setupTestDatabase());
-
+describe("Order Model", () => {
     it("should have an currentUserOrder method", () => {
         expect(OrderStore.currentUserOrder).toBeDefined();
     });
@@ -36,6 +33,4 @@ xdescribe("Order Model", () => {
         await conn.query(sql);
         conn.release();
     });
-
-    afterAll(async () => await tearDownTestDatabase());
 });

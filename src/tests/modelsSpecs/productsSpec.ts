@@ -1,10 +1,7 @@
-import client from "../database";
-import { ProductStore } from "../models/products";
-import { setupTestDatabase, tearDownTestDatabase } from "./utils";
+import client from "../../database";
+import { ProductStore } from "../../models/products";
 
-xdescribe("Product Model", () => {
-    beforeAll(async () => await setupTestDatabase());
-
+describe("Product Model", () => {
     it("should have an index method", () => {
         expect(ProductStore.index).toBeDefined();
     });
@@ -52,6 +49,4 @@ xdescribe("Product Model", () => {
         await conn.query(sql);
         conn.release();
     });
-
-    afterAll(async () => await tearDownTestDatabase());
 });

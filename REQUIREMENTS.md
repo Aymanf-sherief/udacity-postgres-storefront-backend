@@ -17,7 +17,7 @@ Note that upon creating a new user you'll get a JWT token that you should use in
 - Create `POST /users` 
 
 #### Orders
-- Current Order by user `GET /orders/currentUserOrder` [token required]
+- Current Order by user `GET /orders/current-user-order` [token required]
 - Create a new order `POST /orders`
 ## Data Shapes
 #### Product
