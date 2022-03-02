@@ -13,7 +13,10 @@ export class ProductStore {
             const sql = "SELECT * FROM products;";
             const res = await conn.query(sql);
             conn.release();
-            return res.rows as Product[];
+            return res.rows.map((prod) => ({
+                ...prod,
+                price: Number(prod.price),
+            })) as Product[];
         } catch (err) {
             throw new Error(`cannot get products: ${err}`);
         }
@@ -24,7 +27,11 @@ export class ProductStore {
             const sql = "SELECT * FROM products WHERE id = $1;";
             const res = await conn.query(sql, [id]);
             conn.release();
-            return res.rows[0] as Product;
+            const prodcut = {
+                ...res.rows[0],
+                price: Number(res.rows[0].price),
+            };
+            return prodcut;
         } catch (err) {
             throw new Error(`cannot get product with id:${id}: ${err}`);
         }
